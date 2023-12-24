@@ -7,6 +7,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policyBuilder =>
+    {
+        policyBuilder.AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithOrigins("https://localhost:5173")
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -26,5 +38,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
+
+app.UseCors(); // Before MapHub
 
 app.Run();

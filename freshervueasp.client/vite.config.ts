@@ -10,7 +10,7 @@ import child_process from 'child_process';
 let certFilePath: string = "";
 let keyFilePath: string = "";
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     const baseFolder =
         process.env.APPDATA !== undefined && process.env.APPDATA !== ''
             ? `${process.env.APPDATA}/ASP.NET/https`
@@ -43,24 +43,45 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [plugin()],
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
-    server: {
-        proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7085/',
-                secure: false
+export default defineConfig(({command}) => {
+    if (command === "serve") {
+        return {
+            plugins: [plugin()],
+            resolve: {
+                alias: {
+                    '@': fileURLToPath(new URL('./src', import.meta.url))
+                }
+            },
+            server: {
+                proxy: {
+                    '^/weatherforecast': {
+                        target: "https://localhost:7085/",
+                        secure: false
+                    }
+                },
+                port: 5173,
+                https: {
+                    key: fs.readFileSync(keyFilePath),
+                    cert: fs.readFileSync(certFilePath),
+                }
             }
-        },
-        port: 5173,
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
+        }
+    } else {
+        return {
+            plugins: [plugin()],
+            resolve: {
+                alias: {
+                    '@': fileURLToPath(new URL('./src', import.meta.url))
+                }
+            },
+            server: {
+                proxy: {
+                    '^/weatherforecast': {
+                        target: "https://fresh-vue-asp.azurewebsites.net/",
+                        secure: false
+                    }
+                }
+            }
         }
     }
 })
