@@ -53,13 +53,13 @@ export default defineConfig(({command}) => {
                 }
             },
             server: {
-                proxy: {
-                    '^/weatherforecast': {
-                        target: "https://localhost:7085/",
-                        secure: false
-                    }
-                },
-                port: 5173,
+                // proxy: {
+                //     '^/weatherforecast': {
+                //         target: "https://localhost:7085/",
+                //         secure: false
+                //     }
+                // },
+                // port: 5173,
                 https: {
                     key: fs.readFileSync(keyFilePath),
                     cert: fs.readFileSync(certFilePath),
@@ -72,14 +72,6 @@ export default defineConfig(({command}) => {
             resolve: {
                 alias: {
                     '@': fileURLToPath(new URL('./src', import.meta.url))
-                }
-            },
-            server: {
-                proxy: {
-                    '^/weatherforecast': {
-                        target: "https://fresh-vue-asp.azurewebsites.net/",
-                        secure: false
-                    }
                 }
             }
         }

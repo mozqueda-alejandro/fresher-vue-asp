@@ -32,6 +32,9 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import URL from "@/constants";
+
+    console.log(URL);
 
     type Forecasts = {
         date: string,
@@ -66,7 +69,7 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('weatherforecast')
+                fetch(`${URL}/weatherforecast`)
                     .then(r => r.json())
                     .then(json => {
                         this.post = json as Forecasts;
@@ -83,11 +86,11 @@ th {
     font-weight: bold;
 }
 tr:nth-child(even) {
-    background: #F2F2F2;
+    background: #010101;
 }
 
 tr:nth-child(odd) {
-    background: #FFF;
+    background: #121212;
 }
 
 th, td {
