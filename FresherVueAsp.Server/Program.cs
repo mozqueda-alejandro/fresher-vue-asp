@@ -28,10 +28,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
 // app.UseDefaultFiles();
 // app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -43,10 +43,8 @@ else
     app.UseCors("ProductionPolicy");
 }
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
 // app.MapFallbackToFile("/index.html");
 
 app.Run();

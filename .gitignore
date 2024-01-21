@@ -510,3 +510,5 @@ coverage
 *.http
 
 *.tsbuildinfo
+
+vite.config.ts.timestamp-*.mjs
