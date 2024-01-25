@@ -10,8 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.9.0",
+    "nuxt": "^3.8.2",
+    "nuxt-primevue": "^0.2.2",
     "vue": "^3.4.3",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "primevue": "^3.47.2"
   }
 }

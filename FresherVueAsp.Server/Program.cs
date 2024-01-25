@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     {
         policyBuilder.AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins("https://localhost:5173")
+            .WithOrigins("https://localhost:5173", "http://localhost:3000")
             .AllowCredentials();
     });
     options.AddPolicy("ProductionPolicy", policyBuilder =>
@@ -29,8 +29,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-// app.UseDefaultFiles();
-// app.UseStaticFiles();
 
 if (app.Environment.IsDevelopment())
 {
@@ -45,6 +43,5 @@ else
 
 app.UseAuthorization();
 app.MapControllers();
-// app.MapFallbackToFile("/index.html");
 
 app.Run();
