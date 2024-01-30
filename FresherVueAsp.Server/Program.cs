@@ -1,3 +1,5 @@
+using FresherVueAsp.Server.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,6 +27,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(options => new Dictionary<string, UserConnection>());
+
 
 var app = builder.Build();
 
@@ -43,5 +47,6 @@ else
 
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<GameHub>("/game");
 
 app.Run();

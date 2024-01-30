@@ -17,6 +17,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+
 <!--  <ItemGroup>-->
 <!--    <ProjectReference Include="..\freshervueasp.client\freshervueasp.client.esproj">-->
 <!--      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>-->

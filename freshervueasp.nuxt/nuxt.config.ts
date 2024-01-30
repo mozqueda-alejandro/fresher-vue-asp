@@ -1,14 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // devServer: {
+  //   https: true
+  // },
   devtools: { enabled: true },
   ssr: false,
-  spaLoadingTemplate: true,
-  modules: [
-    'nuxt-primevue'
-  ],
+  // spaLoadingTemplate: true,
+  modules: ['nuxt-primevue', 'nuxt-svgo', '@nuxtjs/tailwindcss'],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL
+    },
+  },
   primevue: {
     options: {
-      unstyled: true,
       ripple: true,
       inputStyle: 'filled'
     }
