@@ -7,11 +7,11 @@ export default defineNuxtConfig({
   ssr: false,
   // spaLoadingTemplate: true,
   modules: ['nuxt-primevue', 'nuxt-svgo', '@nuxtjs/tailwindcss'],
-  runtimeConfig: {
-    public: {
-      baseURL: process.env.BASE_URL
-    },
-  },
+  // runtimeConfig: {
+  //   public: {
+  //     baseURL: process.env.BASE_URL
+  //   },
+  // },
   primevue: {
     options: {
       ripple: true,
