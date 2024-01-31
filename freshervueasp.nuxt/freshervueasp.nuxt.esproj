@@ -15,4 +15,9 @@
     <Folder Include="assets\icons\" />
     <Folder Include="components\" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Script Include="tsconfig.json" />
+  </ItemGroup>
 </Project>

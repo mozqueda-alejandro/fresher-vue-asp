@@ -1,8 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-const URL = 'https://localhost:7085'
-console.log(URL)
+<script setup lang="ts">
+import { useApi } from "@/composables/useApi";
 
 type Forecasts = Array<{
   date: string
@@ -11,49 +8,17 @@ type Forecasts = Array<{
   summary: string
 }>
 
-interface Data {
-  loading: boolean
-  post: null | Forecasts
-}
+const { data, pending, error } = await useApi<Forecasts>("/weatherforecast");
 
-export default defineComponent({
-  data (): Data {
-    return {
-      loading: false,
-      post: null as Forecasts | null
-    }
-  },
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchData()
-  },
-  watch: {
-    // call again the method if the route changes
-    $route: 'fetchData'
-  },
-  methods: {
-    fetchData (): void {
-      this.post = null
-      this.loading = true
-
-      fetch(`${URL}/weatherforecast`)
-        .then(async r => await r.json())
-        .then(json => {
-          this.post = json as Forecasts
-          this.loading = false
-        }).catch(e => { console.error(e) })
-    }
-  }
-})
 </script>
 
 <template>
   <div>
     <h1>Weather forecast</h1>
     <p>This component demonstrates fetching data from the server.</p>
-    <div v-if="loading">Loading...</div>
-    <div>
+    <div v-if="error != null">The backend is not running or there is an error in the API call.</div>
+    <div v-else-if="pending">Loading data from the API...</div>
+    <div v-else>
       <table>
         <thead>
         <tr>
@@ -64,7 +29,7 @@ export default defineComponent({
         </tr>
         </thead>
         <tbody>
-        <tr v-for="forecast in post" :key="forecast.date">
+        <tr v-for="forecast in data as Forecasts" :key="forecast.date">
           <td>{{ forecast.date }}</td>
           <td>{{ forecast.temperatureC }}</td>
           <td>{{ forecast.temperatureF }}</td>
