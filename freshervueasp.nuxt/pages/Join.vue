@@ -15,40 +15,45 @@ const room = ref('')
 
 const joinRoom = async (user: string, room: string): Promise<void> => {
   try {
+    const runtimeConfig = useRuntimeConfig();
+    const webSocketUrl = `${ runtimeConfig.public.baseURL }/game`;
+
     const joinConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:7085/game', {
+      .withUrl(webSocketUrl, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets
       })
       .configureLogging(LogLevel.Information)
-      .build()
+      .build();
 
     joinConnection.on('ReceiveCard', (user: string, message: string) => {
-      messages.value.push({ user, message })
-      console.log(messages.value)
+      messages.value.push({ user, message });
+      console.log(messages.value);
     })
 
     joinConnection.on('UsersInRoom', (users) => {
-      users.value = users
+      users.value = users;
     })
 
     joinConnection.onclose(() => {
-      connection.value = null
-      messages.value = []
-      users.value = []
+      connection.value = null;
+      messages.value = [];
+      users.value = [];
     })
 
-    await joinConnection.start()
-    await joinConnection.invoke('JoinRoom', { user, room })
-    connection.value = joinConnection
+    await joinConnection.start();
+    await joinConnection.invoke('JoinRoom', { user, room });
+    connection.value = joinConnection;
   } catch (e) {
-    console.log('HubConnection ERR --- ', e)
+    console.log('HubConnection ERR --- ', e);
   }
 }
 
-const sendMessage = async (message: string): Promise<void> => {
+const sendCard = async (message: string): Promise<void> => {
   try {
-    if (connection.value !== null) { await connection.value.invoke('SendCard', message) }
+    if (connection.value !== null) {
+      await connection.value.invoke('SendCard', message);
+    }
   } catch (e) {
     console.log(e)
   }
